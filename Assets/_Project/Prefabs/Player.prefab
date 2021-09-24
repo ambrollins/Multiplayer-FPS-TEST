@@ -198,10 +198,12 @@ GameObject:
   - component: {fileID: 8120909148540816419}
   - component: {fileID: 8120909148540816415}
   - component: {fileID: 8120909148540816414}
+  - component: {fileID: 5544360450857490552}
   - component: {fileID: 8120909148540816417}
   - component: {fileID: 8120909148540816416}
   - component: {fileID: -8371074136900121235}
   - component: {fileID: 7428563666330318704}
+  - component: {fileID: 672834441981885031}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -240,6 +242,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a23983901aed5f34790ba52172016cdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   groundedOffset: 1
   groundedRadius: 0.5
   groundLayer:
@@ -253,7 +257,7 @@ MonoBehaviour:
   rawMouseLookInput: 0
   mouseXSensitivity: 5
   mouseYSensitivity: 5
-  lockCursor: 0
+  lockCursor: 1
   currentCursorLockMode: 1
   inputMouseLookVector: {x: 0, y: 0}
   mouseLookVector: {x: 0, y: 0}
@@ -271,9 +275,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aec38d629229cd4b85a023acbb07cf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   weaponHolderTransform: {fileID: 8120909149209797908}
   weaponRaycastPointTransform: {fileID: 8120909149706372857}
   equippedWeapon: {fileID: 8120909148798049677}
+  hittableMask:
+    serializedVersion: 2
+    m_Bits: 520
 --- !u!114 &8120909148540816414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,8 +295,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccae116c5afa2714caa2befd65ebf063, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   currentHealth: 50
   healthView: {fileID: 8120909148423957033}
+  isDead: 0
+  objectsToDisable:
+  - {fileID: 8120909149038971124}
+  - {fileID: 8120909149497831197}
+  - {fileID: 8120909149269709415}
+  - {fileID: 8120909149974372369}
+  behavioursToDisable:
+  - {fileID: 8120909148540816419}
+  - {fileID: 8120909148540816415}
+--- !u!114 &5544360450857490552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8120909148540816421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 703c731c0168b3b4d9eb5efc49ed25f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  playerMainCamera: {fileID: 8120909149444508127}
+  playerGunCamera: {fileID: 8120909149626314856}
+  playerMainCameraAudioListener: {fileID: 8120909149444508128}
+  playerCanvas: {fileID: 8120909149107401776}
 --- !u!54 &8120909148540816417
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -353,7 +391,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  clientAuthority: 0
+  clientAuthority: 1
   sendInterval: 0.05
   syncPosition: 1
   syncRotation: 1
@@ -368,6 +406,36 @@ MonoBehaviour:
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+--- !u!114 &672834441981885031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8120909148540816421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 734b48bea0b204338958ee3d885e11f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  clientAuthority: 1
+  sendInterval: 0.05
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  bufferTimeMultiplier: 3
+  bufferSizeLimit: 64
+  catchupThreshold: 6
+  catchupMultiplier: 0.1
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  target: {fileID: 8120909149444508126}
 --- !u!1 &8120909148752323486
 GameObject:
   m_ObjectHideFlags: 0

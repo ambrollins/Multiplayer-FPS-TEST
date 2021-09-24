@@ -7,36 +7,17 @@ public class Weapon : MonoBehaviour
 {
     [SerializeField] private Transform shootPoint;
     [SerializeField] private LineRenderer lineRenderer;
-    [SerializeField] private float bodyShotDamage = 10f;
-    [SerializeField] private float headShotDamage = 40f;
-    [SerializeField] private float legShotDamage = 40f;
+    public float bodyShotDamage = 10f;
+    public float headShotDamage = 40f;
+    public float legShotDamage = 40f;
+
+    [SerializeField] private PlayerWeaponController playerWeaponController;
     
-    public void Attack(Transform raycastPointTransform)
+    public void Attack(Transform raycastPointTransform, LayerMask hittableMask)
     {
         if (Physics.Raycast(raycastPointTransform.position,
-            raycastPointTransform.forward, out RaycastHit hit, 1000f))
+            raycastPointTransform.forward, out RaycastHit hit, 1000f, hittableMask))
         {
-            Debug.Log($"I Hit {hit.collider.name}");
-            if (hit.collider.gameObject.TryGetComponent(out BodyPart bodyPart))
-            {
-                float damageAmount = 0;
-                if (bodyPart.GetType() == typeof(Head))
-                {
-                    damageAmount = headShotDamage;
-                }
-                else if(bodyPart.GetType() == typeof(MiddleBody))
-                {
-                    damageAmount = bodyShotDamage;
-                }
-                else if(bodyPart.GetType() == typeof(Legs))
-                {
-                    damageAmount = legShotDamage;
-                }
-                
-                bodyPart.TakeDamage(damageAmount);
-                Debug.Log("HELLO");
-            }
-            
             lineRenderer.positionCount = 2;
             lineRenderer.SetPositions(new[] { shootPoint.position, hit.point });
             lineRenderer.enabled = true;
@@ -47,7 +28,7 @@ public class Weapon : MonoBehaviour
 
     private IEnumerator DisableLineRenderer()
     {
-        yield return new WaitForSecondsRealtime(.05f);
+        yield return new WaitForSecondsRealtime(.02f);
         lineRenderer.enabled = false;
     }
 }

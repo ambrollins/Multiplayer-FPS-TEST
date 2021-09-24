@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class BodyPart : MonoBehaviour
 {
-    [SerializeField] protected PlayerHealthSystem playerHealthSystem;
+    public PlayerHealthSystem playerHealthSystem;
 
     public void TakeDamage(float amount)
     {
@@ -13,6 +13,6 @@ public abstract class BodyPart : MonoBehaviour
             Debug.Log("Please assign a player health System");
             return;
         }
-        playerHealthSystem.TakeDamage(amount);
+        //playerHealthSystem.TakeDamage(amount);
     }
 }
