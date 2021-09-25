@@ -257,7 +257,7 @@ MonoBehaviour:
   rawMouseLookInput: 0
   mouseXSensitivity: 5
   mouseYSensitivity: 5
-  lockCursor: 1
+  lockCursor: 0
   currentCursorLockMode: 1
   inputMouseLookVector: {x: 0, y: 0}
   mouseLookVector: {x: 0, y: 0}
@@ -308,6 +308,7 @@ MonoBehaviour:
   behavioursToDisable:
   - {fileID: 8120909148540816419}
   - {fileID: 8120909148540816415}
+  characterController: {fileID: 8120909148540816416}
 --- !u!114 &5544360450857490552
 MonoBehaviour:
   m_ObjectHideFlags: 0

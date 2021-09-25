@@ -14,6 +14,10 @@ public class PlayerHealthSystem : NetworkBehaviour
     [SerializeField] private GameObject[] objectsToDisable;
     [SerializeField] private Behaviour[] behavioursToDisable;
     
+    // TODO : SUPER IMPORTANT, WE CANNOT CHANGE TRANSFORM IF A CHARACTER CONTROLLER IS ATTACHED.
+    // WEIRD BUT TRUE
+    [SerializeField] private CharacterController characterController;
+
     public static Dictionary<uint, PlayerHealthSystem> playerHealthSystems = new Dictionary<uint, PlayerHealthSystem>();
 
     private void Start()
@@ -62,19 +66,23 @@ public class PlayerHealthSystem : NetworkBehaviour
         {
             behavioursToDisable[i].enabled = false;
         }
-        
+
+        characterController.enabled = false;
         StartCoroutine(Respawn());
     }
 
     private IEnumerator Respawn()
     {
-        yield return new WaitForSecondsRealtime(3f);
+        yield return new WaitForSecondsRealtime(1f);
+        
         if (isLocalPlayer)
         {
             Transform newStartPoint = NetworkManager.singleton.GetStartPosition();
-            Debug.Log("New Start Point " + newStartPoint.position);
             transform.position = newStartPoint.position;
+            Debug.Log($"Respawned Player at {transform.position}");
         }
+        
+        yield return new WaitForSecondsRealtime(2f);
         
         for (int i = 0; i < objectsToDisable.Length; i++)
         {
@@ -85,6 +93,7 @@ public class PlayerHealthSystem : NetworkBehaviour
         {
             behavioursToDisable[i].enabled = true;
         }
+        characterController.enabled = true;
         isDead = false;
         ResetHealth();
     }
