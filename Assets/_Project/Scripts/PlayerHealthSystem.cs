@@ -22,6 +22,11 @@ public class PlayerHealthSystem : NetworkBehaviour
 
     private void Start()
     {
+        if (isServer)
+        {
+            playerHealthSystems.Add(GetComponent<NetworkIdentity>().netId, this);
+            Debug.Log($"Added Player: {playerHealthSystems.Count}");
+        }
         ResetHealth();
     }
 
@@ -29,6 +34,7 @@ public class PlayerHealthSystem : NetworkBehaviour
     {
         base.OnStartClient();
         playerHealthSystems.Add(GetComponent<NetworkIdentity>().netId, this);
+        Debug.Log($"Added Player: {playerHealthSystems.Count}");
     }
 
     [ClientRpc]
