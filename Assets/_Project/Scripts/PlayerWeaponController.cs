@@ -12,6 +12,13 @@ public class PlayerWeaponController : NetworkBehaviour
     [SerializeField] private Weapon equippedWeapon;
     [SerializeField] private LayerMask hittableMask;
 
+    [SerializeField] private WeaponView _weaponView;
+
+    private void Start()
+    {
+        _weaponView.UpdateView(equippedWeapon.GetAvailableBullets(), equippedWeapon.GetMagCapacity());
+    }
+
     private void Update()
     {
         if (!isLocalPlayer)
@@ -27,6 +34,27 @@ public class PlayerWeaponController : NetworkBehaviour
         {
             Shoot();
         }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Reload();
+        }
+    }
+
+    private void Reload()
+    {
+        if (equippedWeapon == null)
+        {
+            Debug.Log("No Weapon Equipped!");
+            return;
+        }
+
+        _weaponView.SetReloading(true);
+        equippedWeapon.ReloadMag(() =>
+        {
+            _weaponView.UpdateView(equippedWeapon.GetAvailableBullets(), equippedWeapon.GetMagCapacity());
+            _weaponView.SetReloading(false);
+        });
     }
 
     private void Shoot()
@@ -34,13 +62,20 @@ public class PlayerWeaponController : NetworkBehaviour
         if (equippedWeapon == null)
         {
             Debug.Log("No Weapon Equipped!");
+            return;
         }
 
+        if (!equippedWeapon.CanShoot())
+        {
+            return;
+        }
         equippedWeapon.Attack(weaponRaycastPointTransform, hittableMask);
-        WeaponShoot(equippedWeapon.headShotDamage, equippedWeapon.bodyShotDamage, equippedWeapon.legShotDamage);
+        WeaponShoot(equippedWeapon);
+
+        _weaponView.UpdateView(equippedWeapon.GetAvailableBullets(), equippedWeapon.GetMagCapacity());
     }
     
-    private void WeaponShoot(float headShotDamage, float bodyShotDamage, float legShotDamage)
+    private void WeaponShoot(Weapon weaponToShoot)
     {
         if (Physics.Raycast(weaponRaycastPointTransform.position,
             weaponRaycastPointTransform.forward, out RaycastHit hit, 1000f, hittableMask))
@@ -48,20 +83,7 @@ public class PlayerWeaponController : NetworkBehaviour
             Debug.Log($"I Hit {hit.collider.name}");
             if (hit.collider.gameObject.TryGetComponent(out BodyPart bodyPart))
             {
-                float damageAmount = 0;
-                if (bodyPart.GetType() == typeof(Head))
-                {
-                    damageAmount = headShotDamage;
-                }
-                else if(bodyPart.GetType() == typeof(MiddleBody))
-                {
-                    damageAmount = bodyShotDamage;
-                }
-                else if(bodyPart.GetType() == typeof(Legs))
-                {
-                    damageAmount = legShotDamage;
-                }
-                
+                float damageAmount = equippedWeapon.GetDamageAmount(bodyPart.bodyPartType);
                 uint netId = bodyPart.playerHealthSystem.netId;
                 ProcessDamage(netId, damageAmount);
             }

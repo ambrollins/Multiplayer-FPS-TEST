@@ -259,6 +259,7 @@ GameObject:
   - component: {fileID: 7630853342792348294}
   - component: {fileID: 7616992791988640220}
   - component: {fileID: 7616992791988640221}
+  - component: {fileID: 37545475251181807}
   m_Layer: 7
   m_Name: Assault_Rifle_01
   m_TagString: Untagged
@@ -445,9 +446,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootPoint: {fileID: 7616992790554901125}
   lineRenderer: {fileID: 7616992791988640220}
-  bodyShotDamage: 10
-  headShotDamage: 40
-  legShotDamage: 5
+  bodyPartToDamage:
+  - bodyPartType: 0
+    damageAmount: 40
+  - bodyPartType: 1
+    damageAmount: 10
+  - bodyPartType: 2
+    damageAmount: 5
+  weaponAnimator: {fileID: 37545475251181807}
+  decalPrefab: {fileID: 2145860530963306366, guid: 30b13749c98beb94291e685da0882a7a, type: 3}
+--- !u!95 &37545475251181807
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7616401828399429704}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6bf2363502cd1ca4db9f0c43c9db0c22, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7616992790554901126
 GameObject:
   m_ObjectHideFlags: 0

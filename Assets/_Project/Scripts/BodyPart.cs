@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class BodyPart : MonoBehaviour
 {
+    public BodyPartType bodyPartType;
     public PlayerHealthSystem playerHealthSystem;
 
     public void TakeDamage(float amount)
@@ -15,4 +16,11 @@ public abstract class BodyPart : MonoBehaviour
         }
         //playerHealthSystem.TakeDamage(amount);
     }
+}
+
+public enum BodyPartType
+{
+    Head,
+    Chest,
+    Legs
 }

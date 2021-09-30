@@ -32,6 +32,10 @@ public class PlayerHealthSystem : NetworkBehaviour
 
     public override void OnStartClient()
     {
+        if (isServer)
+        {
+            return;
+        }
         base.OnStartClient();
         playerHealthSystems.Add(GetComponent<NetworkIdentity>().netId, this);
         Debug.Log($"Added Player: {playerHealthSystems.Count}");
